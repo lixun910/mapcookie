@@ -68,6 +68,29 @@ mapcookie.removeMapLayer(); // the top layer will be poped-up and removed
 
 // or you can specify which layer to be removed
 mapcookie.removeMapLayer('http://mapcookie.github.io/test/nat.json');
+
+// or get what has been selected
+var selected = mapcookie.getSelected();
+var nat_selected = nat_map_layer.getSelected();
+
+// you can set selected if you needed
+var my_selected = [];
+nat_map_layer.getFeatures(function(feature){
+  if (feature['population'] < 100000) {
+    my_selected.append(feature.id);
+  }
+});
+
+nat_map_layer.setSelected(my_selected);
+```
+
+## MapCookie Plots
+
+```javascript
+mapcookie.plots.createHistogram(nat_map_layer, 'population', 10);
+mapcookie.plots.createHistogram(nat_map_layer, 'population', 10, colorbrewer.YlGn);
+
+mapcookie.plots.createPie(nat_map_layer, 'education'); // categorical data
 ```
 
 ## MapCookie + Leaflet
@@ -84,22 +107,7 @@ mapcookie.removeMapLayer('http://mapcookie.github.io/test/nat.json');
     }).addTo(map);
 
   // initialize MapCookie for rendering your GeoJSON data
-  var cookie = MapCookie(map, L);
-  
-  /*
-  // Leaflet example: add GeoJSON layer to the map once the file is loaded
-  // load GeoJSON from an external file
-  $.getJSON("rodents.geojson",function(data){
-    // L.geoJson(data).addTo(map);
-    cookie.addJsonMap(data);
-  });
-  */
-    
-  var jsonLayer = new MapCookie({
-    url : '...',
-    map : map,
-    filetype: 'geojson'
-  });
+  mapcookie.addMapLayer(map, 'http://mapcookie.github.io/test/nat.json');
 ```
 
 ## MapCookie + Google Maps
@@ -117,61 +125,7 @@ function initMap() {
   });
   */
   
-  var jsonLayer = new MapCookie({
-    url : '...',
-    map : map,
-    filetype: 'geojson'
-  });
+  // initialize MapCookie for rendering your GeoJSON data
+  mapcookie.addMapLayer(map, 'http://mapcookie.github.io/test/nat.json');
 }
-```
-
-
-```javascript
-  var jsonLayer = new MapCookie.JsonLayer({
-    url : '...',
-    map : map,
-    filetype: 'geojson'
-  });
-  
-  var shpLayer = new MapCookie.ShapefileLayer({
-    url : '...', // zip file with .shp .shx .dbf .prj
-    map : map,
-    filetype: 'geojson'
-  });
-  
-  MapCookie.AddLayer(jsonLayer);
-  MapCookie.AddLayer(shpLayer);
-  
-  //MapCookie.AddLayers(jsonLayer, shpLayer);
-  //MapCookie.Layers.Reorder(shpLayer, jsonLayer);
-  
-  MapCookie.RemoveLayer(jsonLayer);
-  
-```
-
-```javascript
-  // Mouse events:  the default mouse events include 
-  //    selection (single, by rectangle, by circle, by line)
-  //    brushing
-  
-  MapCookie.ActiveLayer;
-  
-  MapCookie.Events.EnableLinking = true; // false
-  
-  shpLayer.OnSelection = function(ids) {
-    
-  };
-  
-  shpLayer.SetColorScheme(colorScheme);
-  
-  var field = shpLayer.GetField(fieldName);
-  
-  MapCookie.MakeQuantileMap( shpLayer, fieldName, k=5);
-  
-  
-  MapCookie.OnSelection = function(layer, ids) {
-    // gives your current layer and ids been selected
-  };
-  
-  
 ```
