@@ -15,11 +15,11 @@ To start using PocketMap.js, past this pieace of code within the HEAD tags of yo
 ```
 
 Visualize your spatial data in PocketMap style
-```
+```javascript
 pocketmap.addMapLayer('map', 'http://pocketmap.github.io/test/nat.json');
 ```
 
-```
+```javascript
 pocketmap.addMapLayer('map', 'http://pocketmap.github.io/test/nat.json')
   .done(function(maplayer, table) {
     // maplayer: is the geometric layer with properties and functions defined in pocketmap.mapLayer
